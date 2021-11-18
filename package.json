@@ -1,18 +1,18 @@
 {
   "private": false,
-  "name": "@mblabs/common-dockerfile",
+  "name": "@mblabs/common-go",
   "version": "0.0.1",
-  "description": "Common files used in Dockerfile projects including global common files, documentation partials, and shared configurations",
+  "description": "Common files used in Go projects including global common files, documentation partials, and shared configurations",
   "license": "MIT",
   "author": "Brian Zalewski <brian@megabyte.space> (https://megabyte.space)",
   "homepage": "https://megabyte.space",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ProfessorManhattan/common-dockerfile.git"
+    "url": "git+https://github.com/ProfessorManhattan/common-go.git"
   },
   "bugs": {
     "email": "help@megabyte.space",
-    "url": "https://gitlab.com/megabyte-labs/common/dockerfile/-/issues"
+    "url": "https://gitlab.com/megabyte-labs/common/go/-/issues"
   },
   "type": "module",
   "scripts": {
@@ -38,10 +38,10 @@
   },
   "keywords": [
     "common",
-    "go",
-    "golang",
-    "go-lang",
     "files",
+    "go",
+    "go-lang",
+    "golang",
     "megabytelabs",
     "npm",
     "package",
