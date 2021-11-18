@@ -1,0 +1,130 @@
+{
+  "private": false,
+  "name": "@mblabs/common-dockerfile",
+  "version": "0.0.1",
+  "description": "Common files used in Dockerfile projects including global common files, documentation partials, and shared configurations",
+  "license": "MIT",
+  "author": "Brian Zalewski <brian@megabyte.space> (https://megabyte.space)",
+  "homepage": "https://megabyte.space",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ProfessorManhattan/common-dockerfile.git"
+  },
+  "bugs": {
+    "email": "help@megabyte.space",
+    "url": "https://gitlab.com/megabyte-labs/common/dockerfile/-/issues"
+  },
+  "type": "module",
+  "scripts": {
+    "help": "task --list",
+    "prepare": "task common:husky",
+    "start": "bash .config/start.sh"
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  },
+  "dependencies": {
+    "tslib": "^2.3.1"
+  },
+  "devDependencies": {
+    "@commitlint/config-conventional": "^13.1.0",
+    "@mblabs/eslint-config": "^1.0.0",
+    "@mblabs/prettier-config": "^14.14.14",
+    "@typescript-eslint/eslint-plugin": "^5.2.0",
+    "cz-conventional-changelog": "^3.3.0",
+    "handlebars-helpers": "^0.10.0"
+  },
+  "keywords": [
+    "common",
+    "go",
+    "golang",
+    "go-lang",
+    "files",
+    "megabytelabs",
+    "npm",
+    "package",
+    "professormanhattan",
+    "shared"
+  ],
+  "engines": {
+    "node": ">=14.18.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "blueprint": {
+    "description": "Common files used in Go projects including global common files, documentation partials, and shared configurations",
+    "group": "common",
+    "name": "Common Go",
+    "overview": "This repository contains files that propagate down to Go project repositories via CI. Dependencies and configuration files are kept in sync across many repositories. Individual Go projects inherit their upstream files by copying over the `.common` folder files and then the `.common-{{ _PROJECT_TYPE_ }}` folder. After the individual projects do that, they merge the appropriate JSON into a `.variables.json` file and use that as the context to generate any files that match `*.hbs.*` or `*.handlebars`.",
+    "repository": {
+      "github": "https://github.com/ProfessorManhattan/common-go",
+      "gitlab": "https://gitlab.com/megabyte-labs/common/go"
+    },
+    "slug": "common-go",
+    "subgroup": "go",
+    "title": "Common Go Project Files"
+  },
+  "eslintConfig": {
+    "extends": "@mblabs/eslint-config"
+  },
+  "funding": [
+    {
+      "type": "opencollective",
+      "url": "https://opencollective.com/megabytelabs"
+    },
+    {
+      "type": "patreon",
+      "url": "https://www.patreon.com/ProfessorManhattan"
+    }
+  ],
+  "lint-staged": {
+    "**/*": [
+      "blocklint --wordlist blacklist,slave,whitelist",
+      "check-merge-conflict",
+      "check-added-large-files",
+      "check-symlinks",
+      "destroyed-symlinks"
+    ],
+    "**/*.(css|html|less|md|mjml|php|scss|sh|xml)": [
+      "task fix:prettier --"
+    ],
+    "**/*.(jpg|png)": [
+      "task image:compress --"
+    ],
+    "**/*.(js|jsx|ts|tsx)": [
+      "task fix:js --",
+      "task lint:js --"
+    ],
+    "**/*.json": [
+      "task fix:json --"
+    ],
+    "**/*.sh": [
+      "task fix:shell --",
+      "task lint:shell --"
+    ],
+    "**/*.toml": [
+      "task lint:toml --"
+    ],
+    "**/*.xml": [
+      "task fix:xml --",
+      "task lint:xml --"
+    ],
+    "**/*.yml": [
+      "task fix:yaml --",
+      "task lint:yaml --"
+    ],
+    "logo.png": [
+      "task image:resize -- 200 200",
+      "task image:compress --"
+    ]
+  },
+  "prettier": "@mblabs/prettier-config",
+  "standard-version": {
+    "scripts": {
+      "prerelease": "git add --all"
+    }
+  }
+}
