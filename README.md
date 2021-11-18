@@ -1,89 +1,83 @@
-# Go
+<div align="center">
+  <center>
+    <a href="https://gitlab.com/megabyte-labs/common">
+      <img width="140" height="140" alt="Common files logo" src="https://gitlab.com/megabyte-labs/assets/-/raw/master/src/shared.png" />
+    </a>
+  </center>
+</div>
+<div align="center">
+  <center><h1>Common Files</h1></center>
+  <center><h4 style="color: #18c3d1;">A set of upstream repositories that contain files common to hundreds of our repositories</h4></center>
+</div>
 
-Common files for Go projects
+[![-----------------------------------------------------](https://gitlab.com/megabyte-labs/assets/-/raw/master/png/aqua-divider.png)](#table-of-contents)
 
-## Getting started
+## Table of Contents
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+- [Overview](#overview)
+- [Documentation Partials and Variable Inheritence](#documentation-partials-and-variable-inheritence)
+- [Common File Propagation Process](#common-file-propagation-process)
+- [Common File Sub-Types](#common-file-sub-types)
+- [Sub-Type Specific Files](#sub-type-specific-files)
+- [Templated Files](#templated-files)
+- [More Information](#more-information)
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+[![-----------------------------------------------------](https://gitlab.com/megabyte-labs/assets/-/raw/master/png/aqua-divider.png)](#overview)
 
-## Add your files
+## Overview
 
-- [ ] [Create](https://gitlab.com/-/experiment/new_project_readme_content:a4badcc32756115f9449a889fe1da321?https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://gitlab.com/-/experiment/new_project_readme_content:a4badcc32756115f9449a889fe1da321?https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://gitlab.com/-/experiment/new_project_readme_content:a4badcc32756115f9449a889fe1da321?https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+All of the projects in the [Megabyte Labs](https://megabyte.space) eco-system inherit many of their files (e.g. configuration files) from a cascade of [common file repositories](https://gitlab.com/megabyte-labs/common). Each repository includes a bundle of shared files as a submodule. The submodule is located in the `.common/` folder in the root of each project. The submodule links to the common file repository that corresponds to the type of project (e.g. Ansible projects link their `.common/` folder to the [Ansible common files repository](https://gitlab.com/megabyte-labs/common/ansible)). Each of the common file repositories houses all the data that is required for a downstream repository but many of the files in the common file repository are actually inherited from a repository even further upstream.
 
-```
-cd existing_repo
-git remote add origin https://gitlab.com/megabyte-labs/common/go.git
-git branch -M master
-git push -uf origin master
-```
+[![-----------------------------------------------------](https://gitlab.com/megabyte-labs/assets/-/raw/master/png/aqua-divider.png)](#documentation-partials-and-variable-inheritence)
 
-## Integrate with your tools
+## Documentation Partials and Variable Inheritence
 
-- [ ] [Set up project integrations](https://gitlab.com/-/experiment/new_project_readme_content:a4badcc32756115f9449a889fe1da321?https://docs.gitlab.com/ee/user/project/integrations/)
+We encourage you to read the [documentation for our documentation partials repositories](https://gitlab.com/megabyte-labs/documentation/shared/-/blob/master/README.md) first because those repositories are the highest upstream. The documentation for the documentation partials repositories already covers how the variables stored in `common.json`, `common.{{ project_subtype }}.json`, and `variables.json` inherit from each other so we will skip the details of that process in this documentation.
 
-## Collaborate with your team
+[![-----------------------------------------------------](https://gitlab.com/megabyte-labs/assets/-/raw/master/png/aqua-divider.png)](#common-file-propagation-process)
 
-- [ ] [Invite team members and collaborators](https://gitlab.com/-/experiment/new_project_readme_content:a4badcc32756115f9449a889fe1da321?https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://gitlab.com/-/experiment/new_project_readme_content:a4badcc32756115f9449a889fe1da321?https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://gitlab.com/-/experiment/new_project_readme_content:a4badcc32756115f9449a889fe1da321?https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Automatically merge when pipeline succeeds](https://gitlab.com/-/experiment/new_project_readme_content:a4badcc32756115f9449a889fe1da321?https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+## Common File Propagation Process
 
-## Test and Deploy
+Many of the files in all our repositories are actually housed in upstream repositories. In order to stay DRY, we use a process that propagates changes from repositories that have files intended to be used by all projects to repositories that have files for specific types of projects. The flow from upstream to the final destination downstream project follows the logic listed below:
 
-Use the built-in continuous integration in GitLab.
+1. When the shared documentation repository (which is the highest upstream repository) is updated, it propagates to [all the other project-type-specific documentation repositories](https://gitlab.com/megabyte-labs/documentation) by triggering their GitLab CI pipeline. It does this by using a GitLab CI script that triggers the pipelines of all the repositories stored in a CI variable (named `DOWNSTREAM_PROJECT_IDS`) which is a comma-seperated list of repository project IDs ([Link to GitLab CI configuration](https://gitlab.com/megabyte-labs/ci/gitlab-ci-templates/-/blob/master/propagate/propagate-projects.gitlab-ci.yml)).
+2. When their pipelines are triggered, the project-type-specific documentation repositories update themselves in a GitLab CI pipeline ([Link to GitLab CI update script](https://gitlab.com/megabyte-labs/ci/gitlab-ci-templates/-/blob/master/update/update-docs.gitlab-ci.yml)).
+3. After the project-type-specific documentation repositories are done updating and linting their new content, they propagate downstream to the project-type-specific [common file repositories](https://gitlab.com/megabyte-labs/common) by triggering the GitLab CI pipelines of the downstream projects ([Link to GitLab CI configuration](https://gitlab.com/megabyte-labs/ci/gitlab-ci-templates/-/blob/master/propagate/propagate-projects.gitlab-ci.yml)).
+4. When the common files repositories' GitLab CI pipelines are triggered, they run an update process which includes grabbing data from the upstream documentation repositories as well as the [shared common file repository](https://gitlab.com/megabyte-labs/common/shared) ([Link to GitLab CI update configuration for common file repository updates](https://gitlab.com/megabyte-labs/ci/gitlab-ci-templates/-/blob/master/update/update-common.gitlab-ci.yml)).
+5. After the common file repositories are done updating and linting, they propagate their changes to their final destination repositories. This is done by using a GitLab CI script that takes a comma-seperated CI variable (named `DOWNSTREAM_GROUP_IDS`) that includes the sub-groups group IDs that the common file repository is responsible for. The script takes the ID of each sub-group and uses the GitLab API to get the project ID of every project in that sub-group. With the project IDs in hand, it triggers the pipeline of each project using the GitLab API ([Link to propagation GitLab CI configuration](https://gitlab.com/megabyte-labs/ci/gitlab-ci-templates/-/blob/master/propagate/propagate-groups.gitlab-ci.yml)).
+6. Finally, when the downstream project's pipelines are triggered, they update themselves via a [GitLab CI update configuration](https://gitlab.com/megabyte-labs/ci/gitlab-ci-templates/-/blob/master/update/update-project.gitlab-ci.yml). This update process calls `bash .start.sh`. `.start.sh` is a file we keep in all our repositories which ensures the `.common/` submodule is up-to-date, ensures [Task](https://taskfile.dev/#/) is installed, and then uses Task to run the project configuration/generation/update process. Using Task allows us to run all parts of the project configuration/generation/update in parallel which makes the process quick. It also has some other nice features like dependency management and conditional script execution.
 
-- [ ] [Get started with GitLab CI/CD](https://gitlab.com/-/experiment/new_project_readme_content:a4badcc32756115f9449a889fe1da321?https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://gitlab.com/-/experiment/new_project_readme_content:a4badcc32756115f9449a889fe1da321?https://docs.gitlab.com/ee/user/application_security/sast/)
+[![-----------------------------------------------------](https://gitlab.com/megabyte-labs/assets/-/raw/master/png/aqua-divider.png)](#common-file-sub-types)
 
-***
+## Common File Sub-Types
 
-# Editing this README
+When browsing around our various common file repositories, you might notice that we have group sub-types. For the [Ansible common file repository](https://gitlab.com/megabyte-labs/common/ansible) you will see that we have multiple folders. The folders are named `files`, `files-role`, and `files-playbook`. In this case, during the project update process, the `files` are copied into both the `files-role` and `files-playbook` folders. The `files-role` and `files-playbook` folders contain files meant for all Ansible projects but files intended for their sub-types. In this case, the sub-types are `role` and `playbook` - two different types of Ansible projects that require slightly different sets of files.
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!).  Thank you to [makeareadme.com](https://gitlab.com/-/experiment/new_project_readme_content:a4badcc32756115f9449a889fe1da321?https://www.makeareadme.com/) for this template.
+Common file sub-types will always have their own group in the [Megabyte Labs GitLab group](https://gitlab.com/megabyte-labs). For example, if the common file repository is of the type Dockerfile, then the sub-groups will be:
 
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+- [ansible-molecule](https://gitlab.com/megabyte-labs/dockerfile/ansible-molecule)
+- [app](https://gitlab.com/megabyte-labs/dockerfile/app)
+- [ci-pipeline](https://gitlab.com/megabyte-labs/dockerfile/ci-pipeline)
+- [software](https://gitlab.com/megabyte-labs/dockerfile/software)
 
-## Name
-Choose a self-explaining name for your project.
+This is because the Dockerfile group contains four sub-groups. Notice how the group names correspond to the slugs of each of the sub-types group pages.
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+[![-----------------------------------------------------](https://gitlab.com/megabyte-labs/assets/-/raw/master/png/aqua-divider.png)](#sub-type-specific-files)
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+## Sub-Type Specific Files
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+You might also notice that we have a `package.role.json.handlebars` and `package.playbook.json.handlebars` file in the Ansible common file repository. These `package.json` files are merged (using jq) with the upstream `package.json.handlebars` during the CI process. That is why the `package.role.json.handlebars` file does not contain everything you should expect in a `package.json` file. Only the items that need to be over-written are included in the downstream `package.role.json.handlebars` file.
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+Note: When dealing with JSON files, the downstream repository's JSON will always take precedence. In other cases, however, upstream files will write over downstream files. The best way of figuring out which files take precedence is to read through the various CI links added to this README.
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+[![-----------------------------------------------------](https://gitlab.com/megabyte-labs/assets/-/raw/master/png/aqua-divider.png)](#templated-files)
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+## Templated Files
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+Many of the files included in our upstream common file repositories end with the file extension `.handlebars`. A file with the `.handlebars` extension is compiled at some point using [Handlebars](https://handlebarsjs.com/). This lets us add conditional logic and inject variables into files.
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+[![-----------------------------------------------------](https://gitlab.com/megabyte-labs/assets/-/raw/master/png/aqua-divider.png)](#more-information)
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+## More Information
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
-
+For further information, we encourage you to look at the aforementioned GitLab CI configuration files and the scripts associated with them. This is really the best way of understanding the process because it is constantly evolving so fully documenting the process is not feasible at this point in time.
