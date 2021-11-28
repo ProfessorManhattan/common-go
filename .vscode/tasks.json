@@ -17,9 +17,9 @@
       "command": "bash .config/scripts/vscode.sh && task ansible:populate:dependencies"
     },
     {
-      "label": "(test:local): Run the Ansible play on the local machine",
+      "label": "(ansible:test:local): Run the Ansible play on the local machine (or via WSL - see task summary)",
       "type": "shell",
-      "command": "bash .config/scripts/vscode.sh && task test:local"
+      "command": "bash .config/scripts/vscode.sh && task ansible:test:local"
     },
     {
       "label": "(test:docker): Performs a full test, including a test for idempotency, on all available Linux systems using Docker",
@@ -107,6 +107,11 @@
       "command": "bash .config/scripts/vscode.sh && task update"
     },
     {
+      "label": "(docker:build): Build a regular Docker image and then generate a slim build from it",
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task docker:build"
+    },
+    {
       "label": "(docker:build:fat): Build a Docker container from the Dockerfile",
       "type": "shell",
       "command": "bash .config/scripts/vscode.sh && task docker:build:fat"
@@ -160,6 +165,11 @@
       "label": "(fix:yaml): Autofix YML files",
       "type": "shell",
       "command": "bash .config/scripts/vscode.sh && task fix:yaml"
+    },
+    {
+      "label": "(git:gitlab:group:exec): Execute a shell script across all repositories in a group and commit the changes",
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task git:gitlab:group:exec"
     },
     {
       "label": "(git:remotes): Configure the git remote `origin` to point to GitLab and the git remote `all` to point to GitLab and GitHub",
@@ -382,9 +392,9 @@
       "command": "bash .config/scripts/vscode.sh && task packer:build:virtualbox"
     },
     {
-      "label": "(packer:packer:vmware): Build a Packer image for VMWare",
+      "label": "(packer:build:vmware): Build a Packer image for VMWare",
       "type": "shell",
-      "command": "bash .config/scripts/vscode.sh && task packer:packer:vmware"
+      "command": "bash .config/scripts/vscode.sh && task packer:build:vmware"
     },
     {
       "label": "(publish:android:beta): Publishes Android app to Firebase beta channel",
@@ -435,6 +445,41 @@
       "label": "(publish:opera:release): Publishes Opera extension",
       "type": "shell",
       "command": "bash .config/scripts/vscode.sh && task publish:opera:release"
+    },
+    {
+      "label": "(python:build): Build the project",
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task python:build"
+    },
+    {
+      "label": "(python:build:binary): Build standalone binary",
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task python:build:binary"
+    },
+    {
+      "label": "(python:publish): Publish the project to PyPi.org",
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task python:publish"
+    },
+    {
+      "label": "(python:requirementstxt): Generate the requirements.txt fallback file",
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task python:requirementstxt"
+    },
+    {
+      "label": "(python:run): Runs the project by calling `run.py`",
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task python:run"
+    },
+    {
+      "label": "(python:test): Runs tests with `pytest` after fixing and linting",
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task python:test"
+    },
+    {
+      "label": "(security:bandit): Check for Python code security issues",
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task security:bandit"
     },
     {
       "label": "(security:dockle): Analyze and lint the Docker container using Dockle",
