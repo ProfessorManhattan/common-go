@@ -192,6 +192,11 @@
       "command": "bash .config/scripts/vscode.sh && task image:resize"
     },
     {
+      "label": "(init): Ensures project is initialized with upstream files and migrates pre-existing projects",
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task init"
+    },
+    {
       "label": "(lint:all): Lint with all available linters",
       "type": "shell",
       "command": "bash .config/scripts/vscode.sh && task lint:all"
@@ -395,6 +400,11 @@
       "label": "(packer:build:vmware): Build a Packer image for VMWare",
       "type": "shell",
       "command": "bash .config/scripts/vscode.sh && task packer:build:vmware"
+    },
+    {
+      "label": "(prepare): Prepares the project for the normal start command",
+      "type": "shell",
+      "command": "bash .config/scripts/vscode.sh && task prepare"
     },
     {
       "label": "(publish:android:beta): Publishes Android app to Firebase beta channel",
