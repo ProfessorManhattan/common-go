@@ -69,7 +69,6 @@ vars:
   REPOSITORY_TYPE: common
   TIMEZONE: America/New_York
 tasks:
-  donothing: 'true'
   group:exec:
     cmds:
       - task: git:gitlab:group:exec
