@@ -1,6 +1,6 @@
 {
   "private": false,
-  "name": "@mblabs/common-go",
+  "name": "@installdoc/common-go",
   "version": "0.0.1",
   "description": "Common files used in Go projects including global common files, documentation partials, and shared configurations",
   "license": "MIT",
@@ -23,7 +23,7 @@
   },
   "config": {
     "commitizen": {
-      "path": "cz-conventional-changelog"
+      "path": "node_modules/cz-emoji-conventional"
     }
   },
   "dependencies": {},
@@ -46,7 +46,8 @@
     "npm",
     "package",
     "professormanhattan",
-    "shared"
+    "shared",
+    "washingtondc"
   ],
   "engines": {
     "node": ">=14.18.0"
@@ -61,19 +62,28 @@
     "group": "common",
     "name": "Common Go",
     "overview": "This repository contains files that propagate down to Go project repositories via CI. Dependencies and configuration files are kept in sync across many repositories. Individual Go projects inherit their upstream files by copying over the `.common` folder files and then the `.common-{{ _PROJECT_TYPE_ }}` folder. After the individual projects do that, they merge the appropriate JSON into a `.variables.json` file and use that as the context to generate any files that match `*.hbs.*` or `*.handlebars`.",
+    "profile": {
+      "npmjs_organization": "installdoc"
+    },
     "repository": {
       "github": "https://github.com/ProfessorManhattan/common-go",
       "gitlab": "https://gitlab.com/megabyte-labs/common/go"
     },
-    "profile": {
-      "npmjs_organization": "installdoc"
-    },
     "slug": "common-go",
     "subgroup": "go",
-    "title": "Common Go Project Files"
+    "title": "Common Go Project Files",
+    "github_id": "R_kgDOGet0vw",
+    "gitlab_project_id": "28711808",
+    "gitlab_group_id": "11097242"
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ],
+    "helpUrl": "https://megabyte.space/docs/contributing/commits"
   },
   "eslintConfig": {
-    "extends": "@mblabs/eslint-config",
+    "extends": "eslint-config-strict-mode",
     "rules": {
       "import/no-extraneous-dependencies": "off"
     }
@@ -110,7 +120,6 @@
       "task fix:json --"
     ],
     "**/*.sh": [
-      "task fix:shell --",
       "task lint:shell --"
     ],
     "**/*.toml": [
@@ -129,12 +138,12 @@
       "task image:compress --"
     ]
   },
-  "prettier": "@mblabs/prettier-config",
+  "prettier": "@washingtondc/prettier",
   "release": {
     "branches": [
       "master",
       "next"
     ],
-    "extends": "@mblabs/release-config"
+    "extends": "@washingtondc/release"
   }
 }
