@@ -75,6 +75,9 @@
       "github": "https://github.com/ProfessorManhattan/common-go",
       "gitlab": "https://gitlab.com/megabyte-labs/common/go"
     },
+    "profile": {
+      "npmjs_organization": "installdoc"
+    },
     "slug": "common-go",
     "subgroup": "go",
     "title": "Common Go Project Files"
