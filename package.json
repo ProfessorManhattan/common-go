@@ -60,7 +60,7 @@
     "emoji_end": " 🚦",
     "emoji_start": "",
     "group": "common",
-    "name": "Common Go Files",
+    "name": "Go Common Files",
     "overview": "This repository contains files that propagate down to Go project repositories via CI. Dependencies and configuration files are kept in sync across many repositories. Individual Go projects inherit their upstream files by copying over the `.common` folder files and then the `.common-{{ _PROJECT_TYPE_ }}` folder. After the individual projects do that, they merge the appropriate JSON into a `.variables.json` file and use that as the context to generate any files that match `*.hbs.*` or `*.handlebars`.",
     "profile": {
       "npmjs_organization": "installdoc"
