@@ -2,6 +2,7 @@
   "author": "{{author.name}} <{{author.email}}> ({{link.home}})",
   "blueprint": {
     "description": "An NPM package that is part of the Megabyte Labs eco-system",
+    "group": "go",
     "name": "My Project Name",
     "overview": "This text shows up at the top of the README.md.",
     "repository": {
@@ -9,6 +10,7 @@
       "gitlab": "{{#if repository.gitlab}}{{repository.gitlab}}{{else}}{{repository.gitlabBaseUrl}}/{{group}}/{{subgroup}}/{{slug}}{{/if}}"
     },
     "slug": "my-project",
+    "subgroup": "library",
     "title": "Title of the README.md"
   },
   "bugs": {
