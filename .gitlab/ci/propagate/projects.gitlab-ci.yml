@@ -15,5 +15,7 @@ propagate:projects:
     GIT_DEPTH: 1
   script:
     - set -eo pipefail
+    - env
     - curl -o propagate.sh https://gitlab.com/megabyte-labs/common/shared/-/raw/master/common/.gitlab/ci/scripts/propagate-projects.sh
+    - cat propagate-projects.sh
     - bash propagate.sh
