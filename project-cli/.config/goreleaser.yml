@@ -42,7 +42,7 @@ universal_binaries:
   - replace: true
 
 release:
-  draft: true
+  disable: true
 
 snapshot:
   name_template: '\{{.Tag}}'
