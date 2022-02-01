@@ -18,5 +18,7 @@
         "REPOSITORY_UPDATE": true
       }
     }
-  ]
+  ],
+  "scriptsBuild": "task go:build",
+  "scriptsTest": "task go:test"
 }
