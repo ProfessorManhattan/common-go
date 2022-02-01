@@ -16,12 +16,12 @@
   },
   "type": "module",
   "scripts": {
-    "build": "",
-    "help": "",
-    "prepare": "",
+    "build": "task donothing",
+    "help": "task --menu",
+    "prepare": "task common:husky",
     "repair": "bash <(curl -sS https://install.doctor/repair)",
-    "start": "",
-    "test": ""
+    "start": "bash start.sh",
+    "test": "task donothing"
   },
   "config": {
     "commitizen": {
