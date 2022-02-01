@@ -106,3 +106,12 @@ brews:
       bash_completion.install "completion/bash/{{binName}}.bash" => "{{binName}}"
       zsh_completion.install "completion/zsh/_{{binName}}" => "_{{binName}}"
       fish_completion.install "completion/fish/{{binName}}.fish"
+
+announce:
+  skip: "\{{gt .Patch 0}}"
+  slack:
+    enabled: true
+    message_template: '**[{{name}}]({{repository.github}})** \{{.Tag}} is out! Check it out at \{{.ReleaseURL}}.'
+    channel: '{{slackNotificationChannel}}'
+    username: '{{slackNotificationUsername}}'
+    icon_url: '{{slackNotificationIcon}}'
