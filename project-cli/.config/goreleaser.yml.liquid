@@ -1,5 +1,5 @@
 ---
-project_name: {{slug}}
+project_name: bodega
 
 env:
   - GOVERSION="$(go version)"
@@ -29,7 +29,7 @@ build:
     - CGO_ENABLED=0
   ldflags:
     # yamllint disable-line rule:line-length
-    - '{{buildLdflags}}'
+    - '{{{buildLdflags}}}'
 
 gomod:
   proxy: true
@@ -74,7 +74,7 @@ nfpms:
     file_name_template: '\{{.ProjectName}}-\{{.Os}}-\{{.Arch}}'
 
 snapcrafts:
-  - id: \{{.Binary}}
+  - id: '\{{.Binary}}'
     publish: true
     summary: '{{description}}'
     description: '{{overview}}'
@@ -108,7 +108,7 @@ brews:
       fish_completion.install "completion/fish/{{binName}}.fish"
 
 announce:
-  skip: "\{{gt .Patch 0}}"
+  skip: '\{{gt .Patch 0}}'
   linkedin:
     enabled: false
     message_template: '{{name}} \{{ .Tag }} is out! Check it out at \{{ .ReleaseURL }}.'
@@ -117,7 +117,7 @@ announce:
     application_id: '{{redditApplicationId}}'
     username: '{{redditUsername}}'
     url_template: '{{repository.github}}/releases/tag/\{{ .Tag }}'
-    title_template: ''{{name}} \{{ .Tag }} was just released!''
+    title_template: '{{name}} \{{ .Tag }} was just released!'
   slack:
     enabled: true
     message_template: '**[{{name}}]({{repository.github}})** \{{.Tag}} is out! Check it out at \{{.ReleaseURL}}.'
