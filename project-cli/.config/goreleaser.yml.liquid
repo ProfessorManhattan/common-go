@@ -109,9 +109,14 @@ brews:
 
 announce:
   skip: "\{{gt .Patch 0}}"
+  reddit:
+    enabled: false
   slack:
     enabled: true
     message_template: '**[{{name}}]({{repository.github}})** \{{.Tag}} is out! Check it out at \{{.ReleaseURL}}.'
     channel: '{{slackNotificationChannel}}'
     username: '{{slackNotificationUsername}}'
     icon_url: '{{slackNotificationIcon}}'
+  twitter:
+    enabled: false
+    message_template: '{{name}} \{{ .Tag }} is out with new features! Check it out at \{{ .ReleaseURL }}.'
