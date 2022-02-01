@@ -1,5 +1,5 @@
 ---
-project_name: bodega
+project_name: '{{slug}}'
 
 env:
   - GOVERSION="$(go version)"
@@ -35,9 +35,7 @@ gomod:
   proxy: true
 
 archives:
-  - name_template: '\{{.Binary}}-\{{.Os}}-\{{.Arch}}'
-    files:
-      - docs/*
+  - files:
       - README.md
       - LICENSE
       - completion/**/*
@@ -46,7 +44,9 @@ archives:
         format: zip
     replacements:
       amd64: 64-bit
+      386: 32-bit
       darwin: macOS
+      linux: Linux
 
 universal_binaries:
   - replace: true
@@ -61,7 +61,7 @@ checksum:
   name_template: CHECKSUMS.txt
 
 nfpms:
-  - id: '{{binName}}.{{idPost}}'
+  - id: default
     vendor: '{{company}}'
     homepage: '{{link.home}}'
     maintainer: '{{organization}} <{{email.help}}>'
@@ -71,13 +71,35 @@ nfpms:
       - apk
       - deb
       - rpm
-    file_name_template: '\{{.ProjectName}}-\{{.Os}}-\{{.Arch}}'
+    recommends:
+      - git
+    suggests:
+      - docker
+      - jq
+      - yq
+    replacements:
+      amd64: 64-bit
+      386: 32-bit
+      darwin: macOS
+      linux: Linux
 
 snapcrafts:
-  - id: '\{{.Binary}}'
+  - id: default
     publish: true
     summary: '{{description}}'
+    # yamllint disable-line rule:line-length
     description: '{{overview}}'
+    replacements:
+      amd64: 64-bit
+      386: 32-bit
+      darwin: macOS
+      linux: Linux
+    confinement: '{{snapConfinement}}'
+    license: '{{license}}'
+    extra_files:
+      - source: completion
+        destination: completion
+        mode: 0755
 
 dockers:
   - goos: linux
