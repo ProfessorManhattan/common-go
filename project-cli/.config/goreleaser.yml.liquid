@@ -19,6 +19,7 @@ build:
   env:
     - CGO_ENABLED=0
   ldflags:
+    # yamllint disable-line rule:line-length
     - '{{buildLdflags}}'
 
 gomod:
