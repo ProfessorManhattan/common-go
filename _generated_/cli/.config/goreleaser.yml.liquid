@@ -1,4 +1,13 @@
 ---
+project_name: {{slug}}
+
+env:
+  - GOVERSION="$(go version)"
+
+before:
+  hooks:
+    - go mod tidy
+
 build:
   binary: '{{binName}}'
   main: '{{buildMain}}'
@@ -19,6 +28,7 @@ build:
   env:
     - CGO_ENABLED=0
   ldflags:
+    # yamllint disable-line rule:line-length
     - '{{buildLdflags}}'
 
 gomod:
@@ -70,9 +80,13 @@ snapcrafts:
     description: '{{overview}}'
 
 dockers:
-  - image_templates:
+  - goos: linux
+    goarch: amd64
+    image_templates:
       - '{{profile.dockerhub}}/\{{.ProjectName}}'
-    dockerfile: Dockerfile
+      - '{{profile.dockerhub}}/\{{.ProjectName}}:\{{.Tag}}'
+      - '{{profile.dockerhub}}/\{{.ProjectName}}:v\{{ .Major }}'
+    dockerfile: .config/Dockerfile
     use: buildx
     build_flag_templates:
       - --platform=linux/amd64
@@ -92,3 +106,17 @@ brews:
       bash_completion.install "completion/bash/{{binName}}.bash" => "{{binName}}"
       zsh_completion.install "completion/zsh/_{{binName}}" => "_{{binName}}"
       fish_completion.install "completion/fish/{{binName}}.fish"
+
+announce:
+  skip: "\{{gt .Patch 0}}"
+  reddit:
+    enabled: false
+  slack:
+    enabled: true
+    message_template: '**[{{name}}]({{repository.github}})** \{{.Tag}} is out! Check it out at \{{.ReleaseURL}}.'
+    channel: '{{slackNotificationChannel}}'
+    username: '{{slackNotificationUsername}}'
+    icon_url: '{{slackNotificationIcon}}'
+  twitter:
+    enabled: false
+    message_template: '{{name}} \{{ .Tag }} is out with new features! Check it out at \{{ .ReleaseURL }}.'
