@@ -10,7 +10,7 @@
   "autodoc_todo_description": "",
   "autodoc_variables_description": "",
   "badge_style": "for-the-badge",
-  "buildLdflags": "-s -w -X \"main.version={{.Version}}\" -X \"main.commit={{.Commit}}\" -X \"main.date={{.Date}}\" -X \"main.builtBy='Megabyte Labs'\" -X \"main.goversion={{.Env.GOVERSION}}\"",
+  "buildLdflags": "-s -w -X \"main.version={{.Version}}\" -X \"main.commit={{.Commit}}\" -X \"main.date={{.Date}}\" -X \"main.builtBy=Megabyte Labs\" -X \"main.goversion={{.Env.GOVERSION}}\"",
   "buildMain": "main.go",
   "commit_help_url": "https://megabyte.space/docs/contributing/commit-guidelines",
   "company": "Megabyte LLC",
@@ -281,6 +281,7 @@
   "slackNotificationChannel": "#go-lang",
   "slackNotificationIcon": "https://gitlab.com/megabyte-labs/misc/assets/-/raw/master/logo/megabytelabs-color-icon-350x350.png",
   "slackNotificationUsername": "Megabyte Labs Release Notification Bot",
+  "snapConfinement": "classic",
   "sponsorship": {
     "author": "Brian Zalewski",
     "text": "I create open source projects out of love. Although I have a job, shelter, and as much fast food as I can handle, it would still be pretty cool to be appreciated by the community for something I have spent a lot of time and money on. Please consider sponsoring me! Who knows? Maybe I will be able to quit my job and publish open source full time."
