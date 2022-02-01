@@ -1,4 +1,13 @@
 ---
+project_name: {{slug}}
+
+env:
+  - GOVERSION="$(go version)"
+
+before:
+  hooks:
+    - go mod tidy
+
 build:
   binary: '{{binName}}'
   main: '{{buildMain}}'
@@ -71,9 +80,13 @@ snapcrafts:
     description: '{{overview}}'
 
 dockers:
-  - image_templates:
+  - goos: linux
+    goarch: amd64
+    image_templates:
       - '{{profile.dockerhub}}/\{{.ProjectName}}'
-    dockerfile: Dockerfile
+      - '{{profile.dockerhub}}/\{{.ProjectName}}:\{{.Tag}}'
+      - '{{profile.dockerhub}}/\{{.ProjectName}}:v\{{ .Major }}'
+    dockerfile: .config/Dockerfile
     use: buildx
     build_flag_templates:
       - --platform=linux/amd64
