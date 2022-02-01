@@ -1,4 +1,5 @@
 {
+  "buildLdflags": "-s -w -X main.version={{.Version}} -X main.commit={{.Commit}} -X main.date={{.Date}} -X main.builtBy='Megabyte Labs' -X main.goversion={{.Env.GOVERSION}}",
   "gitlab_pipelines": [
     {
       "active": true,
