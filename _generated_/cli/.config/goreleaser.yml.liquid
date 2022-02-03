@@ -1,5 +1,5 @@
 ---
-project_name: '{{slug}}'
+project_name: '{{replace name " " "-"}}'
 
 env:
   - GOVERSION="$(go version)"
@@ -32,7 +32,9 @@ build:
     - '{{{buildLdflags}}}'
 
 gomod:
-  proxy: true
+  proxy: {{gomodProxy}}
+  env:
+    - GORELEASER_CURRENT_TAG={{#if currentBuildTag}}{{currentBuildTag}}{{else}}v{{version}}{{/if}}
 
 archives:
   - files:
