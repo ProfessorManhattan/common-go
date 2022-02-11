@@ -8,11 +8,11 @@
   "goBinary": {
     "name": "{{binName}}",
     "path": "./bin",
-    "url": "{{repository.github}}/releases/download/v{{version}}/{{replace name ' ' '-'}}-{{'{{'}}version{{'}}'}}-{{'{{'}}platform{{'}}'}}-{{'{{'}}arch{{'}}'}}.tar.gz"
+    "url": "{{repository.github}}/releases/download/v{{version}}/{{replace name ' ' '-'}}-{{version}}-\{{platform}}-\{{arch}}.tar.gz"
   },
   "keywords": ["cli", "terminal", "automation"],
   "scripts": {
-    "postinstall": "go-npm install",
-    "preuninstall": "go-npm uninstall"
+    "postinstall": "go-npm install || true",
+    "preuninstall": "go-npm uninstall || true"
   }
 }
