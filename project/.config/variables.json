@@ -21,6 +21,7 @@
       }
     }
   ],
+  "goBinarySystemInfo": "{{platform}}-{{arch}}",
   "scriptsBuild": "task go:build",
   "scriptsTest": "task go:test",
   "slackNotificationChannel": "#go-lang",
