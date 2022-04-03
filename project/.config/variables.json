@@ -1,5 +1,5 @@
 {
-  "buildLdflags": "-s -w -X \"main.version={{.Version}}\" -X \"main.commit={{.Commit}}\" -X \"main.date={{.Date}}\" -X \"main.builtBy=Megabyte Labs\" -X \"main.goversion={{.Env.GOVERSION}}\"",
+  "buildLdflags": "-s -w -X \"main.version={{.Version}}\" -X \"main.commit={{.Commit}}\" -X \"main.date={{.Date}}\" -X \"main.builtBy=Megabyte Labs\"",
   "buildMain": "main.go",
   "gitlab_pipelines": [
     {
@@ -22,6 +22,7 @@
     }
   ],
   "goBinarySystemInfo": "{{platform}}-{{arch}}",
+  "goModProxy": false,
   "goVetFlags": "",
   "scriptsBuild": "task go:build",
   "scriptsTest": "task go:test",
