@@ -69,7 +69,7 @@ dockers:
     image_templates:
       - '{{profile.dockerhub}}/\{{.ProjectName}}:\{{.Tag}}'
       - '{{profile.dockerhub}}/\{{.ProjectName}}:v\{{.Major}}'
-      - '{{profile.dockerhub}}/\{{.ProjectName}}:v\{{.Major}}.{{.Minor}}'
+      - '{{profile.dockerhub}}/\{{.ProjectName}}:v\{{.Major}}.\{{.Minor}}'
       - '{{profile.dockerhub}}/\{{.ProjectName}}:latest'
     skip_push: 'false'
 
