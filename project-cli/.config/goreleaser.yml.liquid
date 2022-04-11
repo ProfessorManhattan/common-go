@@ -13,7 +13,7 @@ archives:
 
 aurs:
   - name: \{{.ProjectName}}
-    homepage: '{{link.home}}'
+    homepage: '{{repository.github}}'
     description: '{{description}}'
     maintainers:
       - '{{organization}} <{{email.help}}>'
@@ -74,7 +74,7 @@ before:
 brews:
   - description: '{{description}}'
     folder: '{{homebrew.folder}}'
-    homepage: '{{link.home}}'
+    homepage: '{{repository.github}}'
     install: |-
       bin.install "{{binName}}"
       bash_completion.install "local/completion/bash/{{binName}}.bash" => "{{binName}}"
@@ -138,7 +138,7 @@ nfpms:
       - apk
       - deb
       - rpm
-    homepage: '{{link.home}}'
+    homepage: '{{repository.github}}'
     id: default
     license: '{{license}}'
     maintainer: '{{organization}} <{{email.help}}>'
@@ -194,7 +194,7 @@ scoop:
     name: '{{organization}}'
     email: '{{email.help}}'
   commit_msg_template: "Scoop update for \{{ .ProjectName }} version \{{ .Tag }}"
-  homepage: '{{link.home}}'
+  homepage: '{{repository.github}}'
   description: '{{description}}'
   license: '{{license}}'
 {{#if scoopPersists}}
