@@ -65,7 +65,7 @@ aurs:
     commit_author:
       name: '{{organization}}'
       email: '{{email.help}}'
-    url_template: "{{repository.github}}/releases/{{ .Tag }}/{{ .ArtifactName }}"
+    url_template: "{{repository.github}}/releases/\{{ .Tag }}/\{{ .ArtifactName }}"
 
 before:
   hooks:
