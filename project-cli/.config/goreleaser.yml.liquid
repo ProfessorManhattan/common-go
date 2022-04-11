@@ -11,84 +11,85 @@ archives:
       - format: zip
         goos: windows
 
-aurs:
-  - name: \{{.ProjectName}}
-    homepage: '{{repository.github}}'
-    description: '{{description}}'
-    maintainers:
-      - '{{organization}} <{{email.help}}>'
-{{#if contributors}}
-    contributors:
-{{#each contributors}}
-      - '{{this.name}} <{{this.email}}>'
-{{/each}}
-{{/if}}
-    license: '{{license}}'
-    private_key: '\{{ .Env.AUR_KEY }}'
-    # The AUR Git URL for this package.
-    # Defaults to empty. TODOTODOTODO
-    # git_url: 'ssh://aur@aur.archlinux.org/mypackage-bin.git'
-{{#if aurProvides}}
-    provides:
-{{#each aurProvides}}
-      - {{this}}
-{{/each}}
-{{/if}}
-{{#if aurConflicts}}
-    conflicts:
-{{#each aurConflicts}}
-      - {{this}}
-{{/each}}
-{{/if}}
-{{#if aurDepends}}
-    depends:
-{{#each aurDepends}}
-      - {{this}}
-{{/each}}
-{{/if}}
-{{#if aurOptDepends}}
-    optdepends:
-{{#each aurOptDepends}}
-      - '{{this}}'
-{{/each}}
-{{/if}}
-    package: |-
-      install -Dm755 "./mybin" "${pkgdir}/usr/bin/{{binName}}"
-      install -Dm644 "./LICENSE.md" "${pkgdir}/usr/share/licenses/{{binName}}/LICENSE"
-      mkdir -p "${pkgdir}/usr/share/bash-completion/completions/"
-      mkdir -p "${pkgdir}/usr/share/zsh/site-functions/"
-      mkdir -p "${pkgdir}/usr/share/fish/vendor_completions.d/"
-      install -Dm644 "./local/completion/bash/{{binName}}.bash" "${pkgdir}/usr/share/bash-completion/completions/{{binName}}"
-      install -Dm644 "./local/completion/zsh/{{binName}}.zsh" "${pkgdir}/usr/share/zsh/site-functions/_{{binName}}"
-      install -Dm644 "./local/completion/fish/{{binName}}.fish" "${pkgdir}/usr/share/fish/vendor_completions.d/{{binName}}.fish"
-      # install -Dm644 "./local/man/{{binName}}.1.gz" "${pkgdir}/usr/share/man/man1/{{binName}}.1.gz"
-    commit_author:
-      name: '{{organization}}'
-      email: '{{email.help}}'
-    url_template: "{{repository.github}}/releases/\{{ .Tag }}/\{{ .ArtifactName }}"
+#aurs:
+#  - commit_author:
+#      name: {{organization}}
+#      email: {{email.help}}
+#    description: {{description}}
+#    # The AUR Git URL for this package.
+#    # Defaults to empty. TODOTODOTODO
+#    # git_url: ssh://aur@aur.archlinux.org/mypackage-bin.git
+#    homepage: {{repository.github}}
+#    license: {{license}}
+#    maintainers:
+#      - {{organization}} <{{email.help}}>
+#    name: '\{{ .ProjectName }}'
+#    private_key: '\{{ .Env.AUR_KEY }}'
+#{{#if contributors}}
+#    contributors:
+#{{#each contributors}}
+#      - '{{this.name}} <{{this.email}}>'
+#{{/each}}
+#{{/if}}
+#{{#if aurProvides}}
+#    provides:
+#{{#each aurProvides}}
+#      - {{this}}
+#{{/each}}
+#{{/if}}
+#{{#if aurConflicts}}
+#    conflicts:
+#{{#each aurConflicts}}
+#      - {{this}}
+#{{/each}}
+#{{/if}}
+#{{#if aurDepends}}
+#    depends:
+#{{#each aurDepends}}
+#      - {{this}}
+#{{/each}}
+#{{/if}}
+#{{#if aurOptDepends}}
+#    optdepends:
+#{{#each aurOptDepends}}
+#      - '{{this}}'
+#{{/each}}
+#{{/if}}
+#    package: |-
+#      install -Dm755 "./mybin" "${pkgdir}/usr/bin/{{binName}}"
+#      install -Dm644 "./LICENSE.md" "${pkgdir}/usr/share/licenses/{{binName}}/LICENSE"
+#      mkdir -p "${pkgdir}/usr/share/bash-completion/completions/"
+#      mkdir -p "${pkgdir}/usr/share/zsh/site-functions/"
+#      mkdir -p "${pkgdir}/usr/share/fish/vendor_completions.d/"
+#      install -Dm644 "./local/completion/bash/{{binName}}.bash" "${pkgdir}/usr/share/bash-completion/completions/{{binName}}"
+#      install -Dm644 "./local/completion/zsh/{{binName}}.zsh" "${pkgdir}/usr/share/zsh/site-functions/_{{binName}}"
+#      install -Dm644 "./local/completion/fish/{{binName}}.fish" "${pkgdir}/usr/share/fish/vendor_completions.d/{{binName}}.fish"
+#      # install -Dm644 "./local/man/{{binName}}.1.gz" "${pkgdir}/usr/share/man/man1/{{binName}}.1.gz"
+#    url_template: "{{repository.github}}/releases/\{{ .Tag }}/\{{ .ArtifactName }}"
 
 before:
   hooks:
     - go mod tidy
 
 brews:
-  - description: '{{description}}'
-    folder: '{{homebrew.folder}}'
-    homepage: '{{repository.github}}'
+  - description: {{description}}
+    folder: {{homebrew.folder}}
+    homepage: {{repository.github}}
     install: |-
       bin.install "{{binName}}"
       bash_completion.install "local/completion/bash/{{binName}}.bash" => "{{binName}}"
       zsh_completion.install "local/completion/zsh/_{{binName}}" => "_{{binName}}"
       fish_completion.install "local/completion/fish/{{binName}}.fish"
-    license: '{{license}}'
-    name: '{{binName}}'
+    license: {{license}}
+    name: {{binName}}
     tap:
-      name: '{{homebrew.name}}'
-      owner: '{{homebrew.owner}}'
-    test: '{{homebrew.test}}'
+      name: {{homebrew.name}}
+      owner: {{homebrew.owner}}
+    test: |
+      system "#{bin}/{{binName}} --version"
 
 build:
-  binary: '{{binName}}'
+  binary: {{binName}}
   env:
     - CGO_ENABLED=0
   goarch:
@@ -107,8 +108,8 @@ build:
       goos: darwin
   ldflags:
     # yamllint disable-line rule:line-length
-    - '{{{buildLdflags}}}'
-  main: '{{buildMain}}'
+    - {{{buildLdflags}}}
+  main: {{buildMain}}
 
 changelog:
   skip: true
@@ -121,7 +122,7 @@ dist: build
 dockers:
   - dockerfile: .config/Dockerfile
     ids:
-      - \{{.ProjectName}}
+      - '\{{.ProjectName}}'
     image_templates:
       - '{{profile.dockerhub}}/\{{.ProjectName}}:\{{.Tag}}'
       - '{{profile.dockerhub}}/\{{.ProjectName}}:v\{{.Major}}'
@@ -130,18 +131,18 @@ dockers:
     skip_push: 'false'
 
 gomod:
-  proxy: {{ goModProxy }}
+  proxy: {{goModProxy}}
 
 nfpms:
-  - description: '{{description}}'
+  - description: {{description}}
     formats:
       - apk
       - deb
       - rpm
-    homepage: '{{repository.github}}'
+    homepage: {{repository.github}}
     id: default
-    license: '{{license}}'
-    maintainer: '{{organization}} <{{email.help}}>'
+    license: {{license}}
+    maintainer: {{organization}} <{{email.help}}>
     contents:
       - src: ./local/completion/bash/{{binName}}.bash
         dst: /usr/share/bash-completion/completions/{{binName}}
@@ -175,42 +176,42 @@ nfpms:
       - {{this}}
 {{/each}}
 {{/if}}
-    vendor: '{{company}}'
+    vendor: {{company}}
 
-project_name: '{{snapPackage}}'
+project_name: {{snapPackage}}
 
 release:
   disable: true
 
 scoop:
-  url_template: "{{repository.github}}/releases/\{{ .Tag }}/\{{ .ArtifactName }}"
   bucket:
     owner: installdoc
     name: scoops
     branch: master
-    token: "\{{ .Env.GITHUB_TOKEN }}"
+    token: '\{{ .Env.GITHUB_TOKEN }}'
   folder: Scoops
   commit_author:
-    name: '{{organization}}'
-    email: '{{email.help}}'
-  commit_msg_template: "Scoop update for \{{ .ProjectName }} version \{{ .Tag }}"
-  homepage: '{{repository.github}}'
-  description: '{{description}}'
-  license: '{{license}}'
+    name: {{organization}}
+    email: {{email.help}}
+  commit_msg_template: 'Scoop update for \{{ .ProjectName }} version \{{ .Tag }}'
+  homepage: {{repository.github}}
+  description: {{description}}
+  license: {{license}}
 {{#if scoopPersists}}
   persist:
 {{#each scoopPersists}}
-    - '{{this}}'
+    - {{this}}
 {{/each}}
 {{/if}}
   pre_install: ["Write-Host 'Beginning the installation..'"]
   post_install: ["Write-Host 'Installation complete!'"]
+  url_template: '{{repository.github}}/releases/\{{ .Tag }}/\{{ .ArtifactName }}'
 
 # eslint-disable max-len
 snapcrafts:
-  - confinement: '{{snapConfinement}}'
+  - confinement: {{snapConfinement}}
     # yamllint disable-line rule:line-length
-    description: '{{overview}}'
+    description: {{overview}}
     extra_files:
       - source: ./local/completion/bash/{{binName}}.bash
         destination: /usr/share/bash-completion/completions/{{binName}}
@@ -229,13 +230,13 @@ snapcrafts:
         destination: /usr/share/doc/{{binName}}/copyright
         mode: 0644
     id: default
-    license: '{{license}}'
+    license: {{license}}
     publish: true
-    summary: '{{description}}'
+    summary: {{description}}
 # eslint-enable max-len
 
 snapshot:
-  name_template: '\{{.Tag}}'
+  name_template: '\{{ .Tag }}'
 
 universal_binaries:
   - replace: true
