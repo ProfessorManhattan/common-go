@@ -122,7 +122,7 @@ dist: build
 dockers:
   - dockerfile: .config/Dockerfile
     ids:
-      - '\{{.ProjectName}}'
+      - default
     image_templates:
       - '{{profile.dockerhub}}/\{{.ProjectName}}:\{{.Tag}}'
       - '{{profile.dockerhub}}/\{{.ProjectName}}:v\{{.Major}}'
