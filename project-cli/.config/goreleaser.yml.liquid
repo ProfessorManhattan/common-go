@@ -57,7 +57,7 @@ archives:
 #{{/if}}
 #    package: |-
 #      install -Dm755 "./mybin" "${pkgdir}/usr/bin/{{binName}}"
-#      install -Dm644 "./LICENSE.md" "${pkgdir}/usr/share/licenses/{{binName}}/LICENSE"
+#      install -Dm644 "./LICENSE" "${pkgdir}/usr/share/licenses/{{binName}}/LICENSE"
 #      mkdir -p "${pkgdir}/usr/share/bash-completion/completions/"
 #      mkdir -p "${pkgdir}/usr/share/zsh/site-functions/"
 #      mkdir -p "${pkgdir}/usr/share/fish/vendor_completions.d/"
@@ -225,7 +225,7 @@ snapcrafts:
       - source: ./local/man/{{binName}}.1.gz
         destination: /usr/share/man/man1/{{binName}}.1.gz
         mode: 0644
-      - source: ./LICENSE.md
+      - source: ./LICENSE
         destination: /usr/share/doc/{{binName}}/copyright
         mode: 0644
     id: default
